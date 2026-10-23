@@ -4,6 +4,6 @@ database/
 # raw study data (too large for git)
 data/
 
-# jupyter / python / editor clutter
+# jupyter / python
 .ipynb_checkpoints/
 __pycache__/
