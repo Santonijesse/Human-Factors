@@ -1,0 +1,4 @@
+# ignores previous iterations of the database
+
+data/
+database/
