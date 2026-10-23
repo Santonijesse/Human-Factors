@@ -1,4 +1,9 @@
 # ignores previous iterations of the database
-
-data/
 database/
+
+# raw study data (too large for git)
+data/
+
+# jupyter / python / editor clutter
+.ipynb_checkpoints/
+__pycache__/
