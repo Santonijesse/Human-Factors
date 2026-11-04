@@ -1,5 +1,5 @@
 'use strict';
-/* Human factors study data: the browser side. Talks to server.py's JSON API. */
+/* Human factors study data: draws the page. db.js answers the queries in the browser. */
 
 const PAGE_SIZE = 200;
 const NONE = '\u0000none';  // stands for "no robot activity" in the robot filters
@@ -30,7 +30,7 @@ const state = {
   aggregates: new Set(['avg']),
   offset: 0,
   result: null,
-  rawColumns: new Set(),
+  status: 'Opening the database…',
 };
 
 /* ── Small helpers ─────────────────────────────────────────────────────────── */
@@ -58,20 +58,6 @@ function svg(tag, attrs = {}, ...children) {
   for (const [key, value] of Object.entries(attrs)) if (value !== null && value !== undefined) node.setAttribute(key, value);
   for (const child of children.flat()) if (child !== null && child !== undefined) node.append(child);
   return node;
-}
-
-async function api(path, payload) {
-  const options = payload === undefined ? {} : {
-    method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)};
-  let response;
-  try {
-    response = await fetch(path, options);
-  } catch {
-    throw new Error('The server is not responding. Check that python server.py is still running.');
-  }
-  const data = await response.json().catch(() => null);
-  if (!response.ok || data === null) throw new Error((data && data.error) || `The server answered ${response.status}.`);
-  return data;
 }
 
 function notice(selector, message) {
@@ -383,7 +369,7 @@ async function runQuery() {
   const serial = ++querySerial;
   $('#result-count').textContent = 'Updating…';
   try {
-    const result = await api('/api/query', {spec, offset: state.offset, limit: PAGE_SIZE});
+    const result = await summaryQuery(spec, state.offset, PAGE_SIZE);
     if (serial !== querySerial) return;  // a newer query has started
     state.result = Object.assign(result, {spec});
     notice('#summary-notice', '');
@@ -400,7 +386,6 @@ const scheduleQuery = debounce(runQuery, 350);
 
 function filtersChanged() {
   state.offset = 0;
-  if ($('#raw-table').childElementCount) $('#raw-status').textContent = 'Filters changed. Preview again to see the matching samples.';
   scheduleQuery();
 }
 
@@ -604,11 +589,11 @@ async function renderChart() {
   fillSelect(select, result.spec.columns, key => columnText(key));
   if (!result.spec.columns.length) return showEmpty(target, 'Choose columns in the filter panel to plot them here.');
   try {
-    const data = await api('/api/series', {spec: result.spec, column: select.value});
+    const data = await chartSeries(result.spec, select.value);
     let segments = [];
     if (data.series.length === 1 && state.meta.robot.labels.length) {
       const [line] = data.series;
-      segments = await api(`/api/segments?${new URLSearchParams({experiment: line.experiment, subject: line.subject, anchor})}`);
+      segments = robotSegments(line.experiment, line.subject, anchor);
     }
     if (serial !== chartSerial) return;
     drawLines(target, data, segments, anchor);
@@ -627,83 +612,14 @@ async function renderChart() {
 }
 
 /* ── Downloads ─────────────────────────────────────────────────────────────── */
-async function startDownload(path, params, noticeSelector) {
-  const url = `${path}?${new URLSearchParams(params)}`;
+// Build a CSV in the browser & hand it over, errors go to the notice box
+async function startDownload(job, noticeSelector) {
   try {
-    const check = await fetch(url, {method: 'HEAD'});  // catch errors before the browser navigates
-    if (!check.ok) {
-      const data = await (await fetch(url)).json().catch(() => null);
-      throw new Error((data && data.error) || `The server answered ${check.status}.`);
-    }
+    await job();
     notice(noticeSelector, '');
-    const link = h('a', {href: url, download: ''});
-    document.body.append(link);
-    link.click();
-    link.remove();
   } catch (err) {
     notice(noticeSelector, err.message);
   }
-}
-
-/* ── Raw samples ───────────────────────────────────────────────────────────── */
-function renderRawControls() {
-  const raw = state.meta.raw;
-  const sensors = Object.keys(raw.sensors);
-  fillSelect($('#raw-sensor'), sensors, s => s);
-  renderRawColumns();
-  const usable = raw.available && sensors.length > 0;
-  $('#raw-preview').disabled = !usable;
-  $('#raw-download').disabled = !usable;
-  if (!raw.available) notice('#raw-notice', raw.message);
-  else if (raw.missing.length) {
-    notice('#raw-notice', `${raw.missing.length} raw file(s) are missing and left out: ${raw.missing.join(', ')}. Rebuild with python build_db.py.`);
-  }
-}
-
-function renderRawColumns() {
-  const sensor = $('#raw-sensor').value;
-  const columns = (state.meta.raw.sensors[sensor] || []).filter(c => c !== 'timestamp');
-  state.rawColumns = new Set(columns);
-  $('#raw-columns').replaceChildren(...columns.map(c => toggle(c, true, on => { on ? state.rawColumns.add(c) : state.rawColumns.delete(c); })));
-}
-
-function rawRequest() {
-  const spec = buildSpec();
-  if (!spec) {
-    notice('#raw-notice', 'Select at least one session first.');
-    return null;
-  }
-  const columns = state.rawColumns.size ? [...state.rawColumns] : ['timestamp'];
-  return {spec, sensor: $('#raw-sensor').value, columns};
-}
-
-async function previewRaw() {
-  const request = rawRequest();
-  if (!request) return;
-  const status = $('#raw-status');
-  status.textContent = 'Reading the CSV files…';
-  $('#raw-preview').disabled = true;
-  try {
-    const r = await api('/api/raw', request);
-    notice('#raw-notice', '');
-    renderTable($('#raw-table'), r.columns, r.rows, 'No raw samples fall in the selected time bins.', 'session');
-    status.textContent = r.rows.length === r.limit
-      ? `Showing the first ${r.limit} samples (${r.elapsed_ms} ms). Download to get every matching sample.`
-      : `${r.rows.length.toLocaleString()} samples (${r.elapsed_ms} ms).`;
-    $('#raw-sql').textContent = r.sql;
-    $('#raw-sql-box').hidden = false;
-  } catch (err) {
-    status.textContent = '';
-    notice('#raw-notice', err.message);
-  } finally {
-    $('#raw-preview').disabled = false;
-  }
-}
-
-function downloadRaw() {
-  const request = rawRequest();
-  if (!request) return;
-  startDownload('/api/download/raw.csv', {spec: JSON.stringify(request.spec), sensor: request.sensor, columns: request.columns.join(',')}, '#raw-notice');
 }
 
 /* ── SQL console ───────────────────────────────────────────────────────────── */
@@ -721,11 +637,6 @@ function exampleSql() {
       `JOIN ${sensor} AS s USING (experiment, subject, t_bin)`,
       `GROUP BY b.experiment, b.subject${by}`,
       `ORDER BY b.experiment, b.subject${by};`);
-  }
-  const rawSensor = Object.keys(meta.raw.sensors)[0], first = meta.sessions[0];
-  if (rawSensor && first) {
-    lines.push('', '-- Raw samples: filter raw_ views on experiment and subject so only that file is read',
-      `-- SELECT * FROM raw_${rawSensor} WHERE experiment = ${first.experiment} AND subject = '${first.subject}' LIMIT 100;`);
   }
   return lines.join('\n');
 }
@@ -745,13 +656,20 @@ function insertSql(text) {
   area.selectionStart = area.selectionEnd = start + text.length;
 }
 
+// Large SELECT * queries ask before downloading every column of a sensor
+function confirmDownload(sql) {
+  const {bytes} = sqlColumns(sql);
+  return bytes < CONSOLE_CONFIRM_BYTES
+    || window.confirm(`This query needs ${megabytes(bytes)} of data that has not been downloaded yet. Continue?`);
+}
+
 async function runSql() {
   const sql = $('#sql-text').value.trim();
-  if (!sql) return;
+  if (!sql || !confirmDownload(sql)) return;
   const status = $('#sql-status');
   status.textContent = 'Running…';
   try {
-    const r = await api('/api/sql', {sql});
+    const r = await runConsole(sql);
     notice('#sql-notice', '');
     renderTable($('#sql-table'), r.columns, r.rows, 'The query returned no rows.', 'session', true);
     status.textContent = `${r.rows.length.toLocaleString()} rows in ${r.elapsed_ms} ms` +
@@ -763,7 +681,7 @@ async function runSql() {
 }
 
 /* ── Tabs, reset and start-up ──────────────────────────────────────────────── */
-const TABS = ['summary', 'raw', 'sql'];
+const TABS = ['summary', 'sql'];
 
 function showTab(name) {
   for (const tab of TABS) {
@@ -834,7 +752,7 @@ function bindEvents() {
   });
   $('#download-summary').addEventListener('click', () => {
     const spec = buildSpec();
-    if (spec) startDownload('/api/download/summary.csv', {spec: JSON.stringify(spec)}, '#summary-notice');
+    if (spec) startDownload(() => downloadSummary(spec), '#summary-notice');
   });
   $('#toggle-sql').addEventListener('click', e => {
     const sql = $('#summary-sql');
@@ -845,13 +763,10 @@ function bindEvents() {
   $('#prev-page').addEventListener('click', () => { state.offset = Math.max(0, state.offset - PAGE_SIZE); runQuery(); });
   $('#next-page').addEventListener('click', () => { state.offset += PAGE_SIZE; runQuery(); });
   $('#chart-column').addEventListener('change', renderChart);
-  $('#raw-sensor').addEventListener('change', () => { renderRawColumns(); filtersChanged(); });
-  $('#raw-preview').addEventListener('click', previewRaw);
-  $('#raw-download').addEventListener('click', downloadRaw);
   $('#sql-run').addEventListener('click', runSql);
   $('#sql-download').addEventListener('click', () => {
     const sql = $('#sql-text').value.trim();
-    if (sql) startDownload('/api/download/sql.csv', {sql}, '#sql-notice');
+    if (sql && confirmDownload(sql)) startDownload(() => downloadConsole(sql), '#sql-notice');
   });
   $('#sql-text').addEventListener('keydown', e => {
     if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); runSql(); }
@@ -860,10 +775,12 @@ function bindEvents() {
 }
 
 async function init() {
+  store.onStatus = text => { $('#db-status').textContent = text || state.status; };
   try {
-    state.meta = await api('/api/meta');
+    state.meta = await openDatabase();
   } catch (err) {
-    $('#db-status').textContent = err.message;
+    state.status = err.message;
+    store.onStatus('');
     return;
   }
   const {meta} = state;
@@ -873,14 +790,14 @@ async function init() {
     }
   }
   const built = new Date(meta.built_at);
-  $('#db-status').textContent = `${meta.database}: ${meta.sessions.length} session${meta.sessions.length === 1 ? '' : 's'} in ${meta.bin_s}-second bins, built ${built.toLocaleString([], {dateStyle: 'medium', timeStyle: 'short'})}`;
+  state.status = `${meta.database}: ${meta.sessions.length} session${meta.sessions.length === 1 ? '' : 's'} in ${meta.bin_s}-second bins, built ${built.toLocaleString([], {dateStyle: 'medium', timeStyle: 'short'})}`;
+  store.onStatus('');
   if (!meta.robot.labels.length) {
     $('#time-anchor option[value="robot"]').remove();
     $('#robot-window').hidden = true;
   }
   $('#sql-text').value = exampleSql();
   renderSchema();
-  renderRawControls();
   bindEvents();
   resetFilters();
 }

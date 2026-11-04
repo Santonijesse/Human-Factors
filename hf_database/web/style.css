@@ -135,7 +135,6 @@ main { padding: 18px 24px 48px; min-width: 0; }
 .toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px 16px; margin-bottom: 12px; }
 .toolbar-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .result-count { margin: 0; font-family: var(--display); font-size: 18px; font-variant-numeric: tabular-nums; }
-.lede { max-width: 72ch; margin: 0 0 14px; color: var(--muted); }
 .notice { border-left: 3px solid var(--danger); background: var(--danger-wash); color: var(--danger); padding: 8px 12px; margin: 0 0 12px; max-width: 90ch; }
 .notice.info { border-left-color: var(--accent); background: var(--accent-wash); color: var(--ink); }
 .sql {
@@ -178,10 +177,6 @@ tbody tr:hover td { background: #f5f7f9; }
 .pager { display: flex; align-items: center; gap: 12px; margin-top: 10px; color: var(--muted); font-size: 13px; }
 
 /* Raw samples */
-.raw-columns { margin: 0 0 10px; }
-.sql-details { margin: 0 0 12px; }
-.sql-details > summary { cursor: pointer; color: var(--accent); font-size: 13px; margin-bottom: 6px; }
-.raw-columns > summary { cursor: pointer; color: var(--accent); font-size: 13px; margin-bottom: 6px; }
 
 /* SQL console */
 .sql-layout { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 28px; align-items: start; }

@@ -117,7 +117,7 @@ def build(data_root=None, db_path=None, raw_dir=None):
     finally:
         conn.close()
 
-    # Atomic: a running server sees the old or the new file, never half
+    # Atomic: anything reading the database sees the old or the new file, never half
     os.replace(tmp, db_path)
     remove_stale_raw(raw_dir, raw_registry, db_path.parent)
     write_shell_script(db_path, statements)

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Human factors study data</title>
-<link rel="stylesheet" href="/static/style.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="masthead">
@@ -14,7 +14,6 @@
   </div>
   <nav class="tabs" role="tablist" aria-label="Views">
     <button type="button" role="tab" id="tab-summary" aria-controls="panel-summary" aria-selected="true">Summaries</button>
-    <button type="button" role="tab" id="tab-raw" aria-controls="panel-raw" aria-selected="false" tabindex="-1">Raw samples</button>
     <button type="button" role="tab" id="tab-sql" aria-controls="panel-sql" aria-selected="false" tabindex="-1">SQL</button>
   </nav>
 </header>
@@ -22,7 +21,7 @@
 <div class="layout" id="layout">
   <aside class="filters" aria-label="Filters">
     <div class="rail-head">
-      <p>Filters apply to summaries and raw samples.</p>
+      <p>Filters apply to the summaries and chart.</p>
       <button type="button" class="link" id="reset">Reset</button>
     </div>
 
@@ -115,26 +114,10 @@
       </div>
     </section>
 
-    <section id="panel-raw" role="tabpanel" aria-labelledby="tab-raw" hidden>
-      <p class="lede">Raw samples are read straight from each session's CSV file through SQLite's CSV extension, limited to the time bins your filters select.</p>
-      <div id="raw-notice" class="notice" role="alert" hidden></div>
-      <div class="toolbar">
-        <label class="field inline">Sensor <select id="raw-sensor"></select></label>
-        <div class="toolbar-actions">
-          <button type="button" id="raw-preview" class="primary">Preview first 200 samples</button>
-          <button type="button" id="raw-download" class="secondary">Download all matching samples</button>
-        </div>
-      </div>
-      <details class="raw-columns"><summary>Columns to include</summary><div id="raw-columns" class="toggles"></div></details>
-      <p id="raw-status" class="hint" aria-live="polite"></p>
-      <details class="sql-details" id="raw-sql-box" hidden><summary>SQL used for this preview</summary><pre id="raw-sql" class="sql"></pre></details>
-      <div class="table-wrap"><table id="raw-table"></table></div>
-    </section>
-
     <section id="panel-sql" role="tabpanel" aria-labelledby="tab-sql" hidden>
       <div class="sql-layout">
         <div>
-          <label for="sql-text" class="sub-head">Read-only SQL. Raw samples are available as raw_&lt;sensor&gt; views.</label>
+          <label for="sql-text" class="sub-head">Read-only SQL. Sensor columns download the first time a query names them.</label>
           <textarea id="sql-text" spellcheck="false" rows="12"></textarea>
           <div class="toolbar">
             <p id="sql-status" class="hint" aria-live="polite">Ctrl+Enter runs the query.</p>
@@ -155,6 +138,8 @@
     </section>
   </main>
 </div>
-<script src="/static/app.js"></script>
+<script src="vendor/sql-wasm.js"></script>
+<script src="db.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

@@ -8,11 +8,12 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 DATA_ROOT = Path('~/research/robotics/human_factors/data').expanduser()
 
-# Metadata, Database, Raw data, & File extensions
+# Metadata, Database, Raw data, File extensions, & Website
 SESSIONS_CSV = 'sessions.csv'
 DB_PATH = HERE / 'human_factors.db'  
 RAW_DIR = HERE / 'raw'               
-EXT_DIR = HERE / 'ext'               
+EXT_DIR = HERE / 'ext'
+SITE_DIR = HERE / 'site'
 
 # Bin size in seconds
 BIN_S = 1.0
