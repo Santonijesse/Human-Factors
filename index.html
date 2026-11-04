@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Human factors study data</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="masthead">
+  <div>
+    <h1>Human factors study data</h1>
+    <p id="db-status" class="status" aria-live="polite">Opening the database…</p>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="Views">
+    <button type="button" role="tab" id="tab-summary" aria-controls="panel-summary" aria-selected="true">Summaries</button>
+    <button type="button" role="tab" id="tab-sql" aria-controls="panel-sql" aria-selected="false" tabindex="-1">SQL</button>
+  </nav>
+</header>
+
+<div class="layout" id="layout">
+  <aside class="filters" aria-label="Filters">
+    <div class="rail-head">
+      <p>Filters apply to the summaries and chart.</p>
+      <button type="button" class="link" id="reset">Reset</button>
+    </div>
+
+    <section>
+      <div class="section-head"><h2>Sessions</h2><span id="session-count" class="count"></span></div>
+      <input type="search" id="session-search" placeholder="Experiment, user or participant" aria-label="Search sessions">
+      <div class="inline-actions">
+        <button type="button" class="link" id="sessions-all">Select shown</button>
+        <button type="button" class="link" id="sessions-none">Clear shown</button>
+      </div>
+      <ul id="session-list" class="session-list"></ul>
+    </section>
+
+    <section>
+      <h2>Time window</h2>
+      <label class="field">Measured from
+        <select id="time-anchor">
+          <option value="session">session start</option>
+          <option value="robot">robot task start</option>
+          <option value="clock">clock time</option>
+        </select>
+      </label>
+      <div class="pair" id="time-relative">
+        <label class="field">From (s)<input type="number" id="time-from" step="any" placeholder="start"></label>
+        <label class="field">To (s)<input type="number" id="time-to" step="any" placeholder="end"></label>
+      </div>
+      <div class="pair" id="time-clock" hidden>
+        <label class="field">From<input type="datetime-local" id="clock-from" step="1"></label>
+        <label class="field">To<input type="datetime-local" id="clock-to" step="1"></label>
+      </div>
+      <p class="hint" id="time-hint"></p>
+      <div class="inline-actions"><button type="button" class="link" id="robot-window">Robot task only</button></div>
+    </section>
+
+    <section id="robot-section">
+      <h2>Robot activity</h2>
+      <p class="hint">Keep time bins where the robot was doing a selected action. Nothing selected means any.</p>
+      <div id="robot-filters"></div>
+    </section>
+
+    <section>
+      <div class="section-head"><h2>Columns</h2><span id="column-count" class="count"></span></div>
+      <input type="search" id="column-search" placeholder="Search channels" aria-label="Search channels">
+      <div class="inline-actions">
+        <button type="button" class="link" id="columns-clear">Clear</button>
+      </div>
+      <div id="column-list"></div>
+    </section>
+
+    <section>
+      <h2>Conditions</h2>
+      <div id="conditions"></div>
+      <button type="button" id="add-condition" class="secondary">Add condition</button>
+      <label class="check"><input type="checkbox" id="require-all"> Only time bins where every selected sensor has data</label>
+    </section>
+
+    <section>
+      <h2>Group results</h2>
+      <div id="group-options" class="check-grid"></div>
+      <label class="field" id="bucket-field">Time bucket (s)<input type="number" id="bucket" value="60" min="0" step="any"></label>
+      <span class="sub-head" id="aggregate-head">Statistics per group</span>
+      <div id="aggregate-options" class="toggles" aria-labelledby="aggregate-head"></div>
+    </section>
+  </aside>
+
+  <main>
+    <section id="panel-summary" role="tabpanel" aria-labelledby="tab-summary">
+      <div class="toolbar">
+        <p id="result-count" class="result-count" aria-live="polite"></p>
+        <div class="toolbar-actions">
+          <button type="button" id="download-summary" class="secondary">Download CSV</button>
+          <button type="button" id="toggle-sql" class="secondary" aria-expanded="false" aria-controls="summary-sql">Show SQL</button>
+        </div>
+      </div>
+      <div id="summary-notice" class="notice" role="alert" hidden></div>
+      <pre id="summary-sql" class="sql" hidden></pre>
+      <figure class="strip">
+        <div class="strip-head">
+          <label class="field inline">Plot <select id="chart-column"></select></label>
+          <p id="chart-note" class="hint"></p>
+        </div>
+        <div id="chart" class="chart"></div>
+        <figcaption id="chart-legend" class="legend"></figcaption>
+      </figure>
+      <div class="table-wrap"><table id="results"></table></div>
+      <div class="pager">
+        <button type="button" id="prev-page" class="secondary">Previous</button>
+        <span id="page-label"></span>
+        <button type="button" id="next-page" class="secondary">Next</button>
+      </div>
+    </section>
+
+    <section id="panel-sql" role="tabpanel" aria-labelledby="tab-sql" hidden>
+      <div class="sql-layout">
+        <div>
+          <label for="sql-text" class="sub-head">Read-only SQL. Sensor columns download the first time a query names them.</label>
+          <textarea id="sql-text" spellcheck="false" rows="12"></textarea>
+          <div class="toolbar">
+            <p id="sql-status" class="hint" aria-live="polite">Ctrl+Enter runs the query.</p>
+            <div class="toolbar-actions">
+              <button type="button" id="sql-run" class="primary">Run SQL</button>
+              <button type="button" id="sql-download" class="secondary">Download CSV</button>
+            </div>
+          </div>
+          <div id="sql-notice" class="notice" role="alert" hidden></div>
+          <div class="table-wrap"><table id="sql-table"></table></div>
+        </div>
+        <aside class="schema" aria-label="Tables and views">
+          <h2>Tables and views</h2>
+          <p class="hint">Click a name to insert it.</p>
+          <div id="schema"></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="vendor/sql-wasm.js"></script>
+<script src="db.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

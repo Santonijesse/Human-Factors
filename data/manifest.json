@@ -1,0 +1,614 @@
+{
+ "built_at": "2026-10-23T17:01:23+00:00",
+ "bins": 191553,
+ "sensors": {
+  "gen_sensors": {
+   "rows": 185031,
+   "mask": "gen_sensors/rows.u8.gz",
+   "mask_bytes": 1199,
+   "columns": {
+    "n_samples": {
+     "file": "gen_sensors/n_samples.f64.gz",
+     "bytes": 19728
+    },
+    "ecg_value_mean": {
+     "file": "gen_sensors/ecg_value_mean.f64.gz",
+     "bytes": 556995
+    },
+    "ecg_value_std": {
+     "file": "gen_sensors/ecg_value_std.f64.gz",
+     "bytes": 1359899
+    },
+    "ecg_value_min": {
+     "file": "gen_sensors/ecg_value_min.f64.gz",
+     "bytes": 313754
+    },
+    "ecg_value_max": {
+     "file": "gen_sensors/ecg_value_max.f64.gz",
+     "bytes": 317494
+    },
+    "heart_rate_bpm_mean": {
+     "file": "gen_sensors/heart_rate_bpm_mean.f64.gz",
+     "bytes": 134435
+    },
+    "heart_rate_bpm_std": {
+     "file": "gen_sensors/heart_rate_bpm_std.f64.gz",
+     "bytes": 55228
+    },
+    "heart_rate_bpm_min": {
+     "file": "gen_sensors/heart_rate_bpm_min.f64.gz",
+     "bytes": 102243
+    },
+    "heart_rate_bpm_max": {
+     "file": "gen_sensors/heart_rate_bpm_max.f64.gz",
+     "bytes": 102808
+    },
+    "rr_interval_ms_mean": {
+     "file": "gen_sensors/rr_interval_ms_mean.f64.gz",
+     "bytes": 385646
+    },
+    "rr_interval_ms_std": {
+     "file": "gen_sensors/rr_interval_ms_std.f64.gz",
+     "bytes": 185901
+    },
+    "rr_interval_ms_min": {
+     "file": "gen_sensors/rr_interval_ms_min.f64.gz",
+     "bytes": 327842
+    },
+    "rr_interval_ms_max": {
+     "file": "gen_sensors/rr_interval_ms_max.f64.gz",
+     "bytes": 329829
+    }
+   }
+  },
+  "emotibit": {
+   "rows": 190648,
+   "mask": "emotibit/rows.u8.gz",
+   "mask_bytes": 456,
+   "columns": {
+    "n_samples": {
+     "file": "emotibit/n_samples.f64.gz",
+     "bytes": 3502
+    },
+    "ea_mean": {
+     "file": "emotibit/ea_mean.f64.gz",
+     "bytes": 1340881
+    },
+    "ea_std": {
+     "file": "emotibit/ea_std.f64.gz",
+     "bytes": 1365861
+    },
+    "ea_min": {
+     "file": "emotibit/ea_min.f64.gz",
+     "bytes": 832524
+    },
+    "ea_max": {
+     "file": "emotibit/ea_max.f64.gz",
+     "bytes": 831262
+    }
+   }
+  },
+  "myo": {
+   "rows": 180574,
+   "mask": "myo/rows.u8.gz",
+   "mask_bytes": 660,
+   "columns": {
+    "n_samples": {
+     "file": "myo/n_samples.f64.gz",
+     "bytes": 50363
+    },
+    "emg1_mean": {
+     "file": "myo/emg1_mean.f64.gz",
+     "bytes": 549178
+    },
+    "emg1_std": {
+     "file": "myo/emg1_std.f64.gz",
+     "bytes": 1344422
+    },
+    "emg1_min": {
+     "file": "myo/emg1_min.f64.gz",
+     "bytes": 215442
+    },
+    "emg1_max": {
+     "file": "myo/emg1_max.f64.gz",
+     "bytes": 297745
+    },
+    "emg2_mean": {
+     "file": "myo/emg2_mean.f64.gz",
+     "bytes": 553068
+    },
+    "emg2_std": {
+     "file": "myo/emg2_std.f64.gz",
+     "bytes": 1347578
+    },
+    "emg2_min": {
+     "file": "myo/emg2_min.f64.gz",
+     "bytes": 222145
+    },
+    "emg2_max": {
+     "file": "myo/emg2_max.f64.gz",
+     "bytes": 300881
+    },
+    "emg3_mean": {
+     "file": "myo/emg3_mean.f64.gz",
+     "bytes": 557397
+    },
+    "emg3_std": {
+     "file": "myo/emg3_std.f64.gz",
+     "bytes": 1348239
+    },
+    "emg3_min": {
+     "file": "myo/emg3_min.f64.gz",
+     "bytes": 228009
+    },
+    "emg3_max": {
+     "file": "myo/emg3_max.f64.gz",
+     "bytes": 302044
+    },
+    "emg4_mean": {
+     "file": "myo/emg4_mean.f64.gz",
+     "bytes": 556746
+    },
+    "emg4_std": {
+     "file": "myo/emg4_std.f64.gz",
+     "bytes": 1348592
+    },
+    "emg4_min": {
+     "file": "myo/emg4_min.f64.gz",
+     "bytes": 227322
+    },
+    "emg4_max": {
+     "file": "myo/emg4_max.f64.gz",
+     "bytes": 301817
+    },
+    "emg5_mean": {
+     "file": "myo/emg5_mean.f64.gz",
+     "bytes": 557563
+    },
+    "emg5_std": {
+     "file": "myo/emg5_std.f64.gz",
+     "bytes": 1348736
+    },
+    "emg5_min": {
+     "file": "myo/emg5_min.f64.gz",
+     "bytes": 228838
+    },
+    "emg5_max": {
+     "file": "myo/emg5_max.f64.gz",
+     "bytes": 303257
+    },
+    "emg6_mean": {
+     "file": "myo/emg6_mean.f64.gz",
+     "bytes": 554256
+    },
+    "emg6_std": {
+     "file": "myo/emg6_std.f64.gz",
+     "bytes": 1347499
+    },
+    "emg6_min": {
+     "file": "myo/emg6_min.f64.gz",
+     "bytes": 224671
+    },
+    "emg6_max": {
+     "file": "myo/emg6_max.f64.gz",
+     "bytes": 301876
+    },
+    "emg7_mean": {
+     "file": "myo/emg7_mean.f64.gz",
+     "bytes": 550317
+    },
+    "emg7_std": {
+     "file": "myo/emg7_std.f64.gz",
+     "bytes": 1345617
+    },
+    "emg7_min": {
+     "file": "myo/emg7_min.f64.gz",
+     "bytes": 218069
+    },
+    "emg7_max": {
+     "file": "myo/emg7_max.f64.gz",
+     "bytes": 299198
+    },
+    "emg8_mean": {
+     "file": "myo/emg8_mean.f64.gz",
+     "bytes": 547016
+    },
+    "emg8_std": {
+     "file": "myo/emg8_std.f64.gz",
+     "bytes": 1345247
+    },
+    "emg8_min": {
+     "file": "myo/emg8_min.f64.gz",
+     "bytes": 212292
+    },
+    "emg8_max": {
+     "file": "myo/emg8_max.f64.gz",
+     "bytes": 296680
+    },
+    "roll_mean": {
+     "file": "myo/roll_mean.f64.gz",
+     "bytes": 1308142
+    },
+    "roll_std": {
+     "file": "myo/roll_std.f64.gz",
+     "bytes": 1382046
+    },
+    "roll_min": {
+     "file": "myo/roll_min.f64.gz",
+     "bytes": 1307774
+    },
+    "roll_max": {
+     "file": "myo/roll_max.f64.gz",
+     "bytes": 1308704
+    },
+    "pitch_mean": {
+     "file": "myo/pitch_mean.f64.gz",
+     "bytes": 1312198
+    },
+    "pitch_std": {
+     "file": "myo/pitch_std.f64.gz",
+     "bytes": 1379023
+    },
+    "pitch_min": {
+     "file": "myo/pitch_min.f64.gz",
+     "bytes": 1310941
+    },
+    "pitch_max": {
+     "file": "myo/pitch_max.f64.gz",
+     "bytes": 1310908
+    },
+    "yaw_mean": {
+     "file": "myo/yaw_mean.f64.gz",
+     "bytes": 1342708
+    },
+    "yaw_std": {
+     "file": "myo/yaw_std.f64.gz",
+     "bytes": 1383540
+    },
+    "yaw_min": {
+     "file": "myo/yaw_min.f64.gz",
+     "bytes": 1343492
+    },
+    "yaw_max": {
+     "file": "myo/yaw_max.f64.gz",
+     "bytes": 1343298
+    }
+   }
+  },
+  "vive": {
+   "rows": 175788,
+   "mask": "vive/rows.u8.gz",
+   "mask_bytes": 924,
+   "columns": {
+    "n_samples": {
+     "file": "vive/n_samples.f64.gz",
+     "bytes": 38380
+    },
+    "left_eye_position_x_mean": {
+     "file": "vive/left_eye_position_x_mean.f64.gz",
+     "bytes": 910095
+    },
+    "left_eye_position_x_std": {
+     "file": "vive/left_eye_position_x_std.f64.gz",
+     "bytes": 912080
+    },
+    "left_eye_position_x_min": {
+     "file": "vive/left_eye_position_x_min.f64.gz",
+     "bytes": 888028
+    },
+    "left_eye_position_x_max": {
+     "file": "vive/left_eye_position_x_max.f64.gz",
+     "bytes": 889789
+    },
+    "left_eye_position_y_mean": {
+     "file": "vive/left_eye_position_y_mean.f64.gz",
+     "bytes": 891334
+    },
+    "left_eye_position_y_std": {
+     "file": "vive/left_eye_position_y_std.f64.gz",
+     "bytes": 911758
+    },
+    "left_eye_position_y_min": {
+     "file": "vive/left_eye_position_y_min.f64.gz",
+     "bytes": 845620
+    },
+    "left_eye_position_y_max": {
+     "file": "vive/left_eye_position_y_max.f64.gz",
+     "bytes": 840007
+    },
+    "left_eye_position_z_mean": {
+     "file": "vive/left_eye_position_z_mean.f64.gz",
+     "bytes": 908787
+    },
+    "left_eye_position_z_std": {
+     "file": "vive/left_eye_position_z_std.f64.gz",
+     "bytes": 911873
+    },
+    "left_eye_position_z_min": {
+     "file": "vive/left_eye_position_z_min.f64.gz",
+     "bytes": 872960
+    },
+    "left_eye_position_z_max": {
+     "file": "vive/left_eye_position_z_max.f64.gz",
+     "bytes": 872394
+    },
+    "left_eye_rotation_x_mean": {
+     "file": "vive/left_eye_rotation_x_mean.f64.gz",
+     "bytes": 905049
+    },
+    "left_eye_rotation_x_std": {
+     "file": "vive/left_eye_rotation_x_std.f64.gz",
+     "bytes": 925078
+    },
+    "left_eye_rotation_x_min": {
+     "file": "vive/left_eye_rotation_x_min.f64.gz",
+     "bytes": 814298
+    },
+    "left_eye_rotation_x_max": {
+     "file": "vive/left_eye_rotation_x_max.f64.gz",
+     "bytes": 818015
+    },
+    "left_eye_rotation_y_mean": {
+     "file": "vive/left_eye_rotation_y_mean.f64.gz",
+     "bytes": 904250
+    },
+    "left_eye_rotation_y_std": {
+     "file": "vive/left_eye_rotation_y_std.f64.gz",
+     "bytes": 924517
+    },
+    "left_eye_rotation_y_min": {
+     "file": "vive/left_eye_rotation_y_min.f64.gz",
+     "bytes": 795986
+    },
+    "left_eye_rotation_y_max": {
+     "file": "vive/left_eye_rotation_y_max.f64.gz",
+     "bytes": 820648
+    },
+    "left_eye_rotation_z_mean": {
+     "file": "vive/left_eye_rotation_z_mean.f64.gz",
+     "bytes": 885054
+    },
+    "left_eye_rotation_z_std": {
+     "file": "vive/left_eye_rotation_z_std.f64.gz",
+     "bytes": 924791
+    },
+    "left_eye_rotation_z_min": {
+     "file": "vive/left_eye_rotation_z_min.f64.gz",
+     "bytes": 739101
+    },
+    "left_eye_rotation_z_max": {
+     "file": "vive/left_eye_rotation_z_max.f64.gz",
+     "bytes": 805322
+    },
+    "right_eye_position_x_mean": {
+     "file": "vive/right_eye_position_x_mean.f64.gz",
+     "bytes": 912178
+    },
+    "right_eye_position_x_std": {
+     "file": "vive/right_eye_position_x_std.f64.gz",
+     "bytes": 912643
+    },
+    "right_eye_position_x_min": {
+     "file": "vive/right_eye_position_x_min.f64.gz",
+     "bytes": 891687
+    },
+    "right_eye_position_x_max": {
+     "file": "vive/right_eye_position_x_max.f64.gz",
+     "bytes": 892994
+    },
+    "right_eye_position_y_mean": {
+     "file": "vive/right_eye_position_y_mean.f64.gz",
+     "bytes": 891663
+    },
+    "right_eye_position_y_std": {
+     "file": "vive/right_eye_position_y_std.f64.gz",
+     "bytes": 912691
+    },
+    "right_eye_position_y_min": {
+     "file": "vive/right_eye_position_y_min.f64.gz",
+     "bytes": 846435
+    },
+    "right_eye_position_y_max": {
+     "file": "vive/right_eye_position_y_max.f64.gz",
+     "bytes": 840738
+    },
+    "right_eye_position_z_mean": {
+     "file": "vive/right_eye_position_z_mean.f64.gz",
+     "bytes": 909539
+    },
+    "right_eye_position_z_std": {
+     "file": "vive/right_eye_position_z_std.f64.gz",
+     "bytes": 912556
+    },
+    "right_eye_position_z_min": {
+     "file": "vive/right_eye_position_z_min.f64.gz",
+     "bytes": 873764
+    },
+    "right_eye_position_z_max": {
+     "file": "vive/right_eye_position_z_max.f64.gz",
+     "bytes": 873029
+    },
+    "right_eye_rotation_x_mean": {
+     "file": "vive/right_eye_rotation_x_mean.f64.gz",
+     "bytes": 905661
+    },
+    "right_eye_rotation_x_std": {
+     "file": "vive/right_eye_rotation_x_std.f64.gz",
+     "bytes": 925757
+    },
+    "right_eye_rotation_x_min": {
+     "file": "vive/right_eye_rotation_x_min.f64.gz",
+     "bytes": 815592
+    },
+    "right_eye_rotation_x_max": {
+     "file": "vive/right_eye_rotation_x_max.f64.gz",
+     "bytes": 819758
+    },
+    "right_eye_rotation_y_mean": {
+     "file": "vive/right_eye_rotation_y_mean.f64.gz",
+     "bytes": 903394
+    },
+    "right_eye_rotation_y_std": {
+     "file": "vive/right_eye_rotation_y_std.f64.gz",
+     "bytes": 925230
+    },
+    "right_eye_rotation_y_min": {
+     "file": "vive/right_eye_rotation_y_min.f64.gz",
+     "bytes": 776621
+    },
+    "right_eye_rotation_y_max": {
+     "file": "vive/right_eye_rotation_y_max.f64.gz",
+     "bytes": 812267
+    },
+    "right_eye_rotation_z_mean": {
+     "file": "vive/right_eye_rotation_z_mean.f64.gz",
+     "bytes": 884557
+    },
+    "right_eye_rotation_z_std": {
+     "file": "vive/right_eye_rotation_z_std.f64.gz",
+     "bytes": 925411
+    },
+    "right_eye_rotation_z_min": {
+     "file": "vive/right_eye_rotation_z_min.f64.gz",
+     "bytes": 729313
+    },
+    "right_eye_rotation_z_max": {
+     "file": "vive/right_eye_rotation_z_max.f64.gz",
+     "bytes": 799329
+    },
+    "left_pupil_diameter_mean": {
+     "file": "vive/left_pupil_diameter_mean.f64.gz",
+     "bytes": 843050
+    },
+    "left_pupil_diameter_std": {
+     "file": "vive/left_pupil_diameter_std.f64.gz",
+     "bytes": 852139
+    },
+    "left_pupil_diameter_min": {
+     "file": "vive/left_pupil_diameter_min.f64.gz",
+     "bytes": 750810
+    },
+    "left_pupil_diameter_max": {
+     "file": "vive/left_pupil_diameter_max.f64.gz",
+     "bytes": 735225
+    },
+    "right_pupil_diameter_mean": {
+     "file": "vive/right_pupil_diameter_mean.f64.gz",
+     "bytes": 843602
+    },
+    "right_pupil_diameter_std": {
+     "file": "vive/right_pupil_diameter_std.f64.gz",
+     "bytes": 853165
+    },
+    "right_pupil_diameter_min": {
+     "file": "vive/right_pupil_diameter_min.f64.gz",
+     "bytes": 756651
+    },
+    "right_pupil_diameter_max": {
+     "file": "vive/right_pupil_diameter_max.f64.gz",
+     "bytes": 734051
+    },
+    "left_pupil_position_x_mean": {
+     "file": "vive/left_pupil_position_x_mean.f64.gz",
+     "bytes": 828974
+    },
+    "left_pupil_position_x_std": {
+     "file": "vive/left_pupil_position_x_std.f64.gz",
+     "bytes": 857641
+    },
+    "left_pupil_position_x_min": {
+     "file": "vive/left_pupil_position_x_min.f64.gz",
+     "bytes": 812138
+    },
+    "left_pupil_position_x_max": {
+     "file": "vive/left_pupil_position_x_max.f64.gz",
+     "bytes": 809148
+    },
+    "left_pupil_position_y_mean": {
+     "file": "vive/left_pupil_position_y_mean.f64.gz",
+     "bytes": 831620
+    },
+    "left_pupil_position_y_std": {
+     "file": "vive/left_pupil_position_y_std.f64.gz",
+     "bytes": 857473
+    },
+    "left_pupil_position_y_min": {
+     "file": "vive/left_pupil_position_y_min.f64.gz",
+     "bytes": 813173
+    },
+    "left_pupil_position_y_max": {
+     "file": "vive/left_pupil_position_y_max.f64.gz",
+     "bytes": 808957
+    },
+    "right_pupil_position_x_mean": {
+     "file": "vive/right_pupil_position_x_mean.f64.gz",
+     "bytes": 829640
+    },
+    "right_pupil_position_x_std": {
+     "file": "vive/right_pupil_position_x_std.f64.gz",
+     "bytes": 858750
+    },
+    "right_pupil_position_x_min": {
+     "file": "vive/right_pupil_position_x_min.f64.gz",
+     "bytes": 812717
+    },
+    "right_pupil_position_x_max": {
+     "file": "vive/right_pupil_position_x_max.f64.gz",
+     "bytes": 809397
+    },
+    "right_pupil_position_y_mean": {
+     "file": "vive/right_pupil_position_y_mean.f64.gz",
+     "bytes": 831394
+    },
+    "right_pupil_position_y_std": {
+     "file": "vive/right_pupil_position_y_std.f64.gz",
+     "bytes": 858681
+    },
+    "right_pupil_position_y_min": {
+     "file": "vive/right_pupil_position_y_min.f64.gz",
+     "bytes": 812686
+    },
+    "right_pupil_position_y_max": {
+     "file": "vive/right_pupil_position_y_max.f64.gz",
+     "bytes": 808784
+    },
+    "left_eye_openness_mean": {
+     "file": "vive/left_eye_openness_mean.f64.gz",
+     "bytes": 349257
+    },
+    "left_eye_openness_std": {
+     "file": "vive/left_eye_openness_std.f64.gz",
+     "bytes": 371286
+    },
+    "left_eye_openness_min": {
+     "file": "vive/left_eye_openness_min.f64.gz",
+     "bytes": 274379
+    },
+    "left_eye_openness_max": {
+     "file": "vive/left_eye_openness_max.f64.gz",
+     "bytes": 71039
+    },
+    "right_eye_openness_mean": {
+     "file": "vive/right_eye_openness_mean.f64.gz",
+     "bytes": 346667
+    },
+    "right_eye_openness_std": {
+     "file": "vive/right_eye_openness_std.f64.gz",
+     "bytes": 368706
+    },
+    "right_eye_openness_min": {
+     "file": "vive/right_eye_openness_min.f64.gz",
+     "bytes": 287540
+    },
+    "right_eye_openness_max": {
+     "file": "vive/right_eye_openness_max.f64.gz",
+     "bytes": 75548
+    }
+   }
+  }
+ },
+ "core": {
+  "file": "core.db.gz",
+  "bytes": 3330411
+ }
+}
