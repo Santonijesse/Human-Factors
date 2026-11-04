@@ -697,7 +697,7 @@ function showTab(name) {
 
 function resetFilters() {
   const {meta} = state;
-  state.sessions = new Set(meta.sessions.map(sessionKey));
+  state.sessions = new Set(meta.sessions.slice(0, 1).map(sessionKey));  // start with just the first session
   state.columns = new Set(meta.default_columns.length ? meta.default_columns
     : meta.sensors.flatMap(s => s.channels.map(c => c.stats.mean).filter(Boolean)).slice(0, 3));
   state.conditions = [];
